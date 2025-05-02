@@ -1,0 +1,7 @@
+
+export enum ErrorCode {
+BAD_REQUEST = "10001",
+NOT_FOUND = "10002",
+SERVER_ERROR = "10003",
+VALIDATION_ERROR= "10004"
+}
