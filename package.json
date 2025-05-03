@@ -4,7 +4,7 @@
     "build:watch": "tsc -w",
     "start": "node --watch dist/index.js",
     "dev": "ts-node src/index.ts",
-    "start:dev": "yarn run build:watch && yarn run dev"
+    "start:dev": "yarn run dev"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

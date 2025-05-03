@@ -6,8 +6,6 @@ import { IUserJwt } from "../modules/user/Dto/uset.dto";
 import { extractToken } from "../utils/index.utils";
 
 
-
-
 const authMiddleware = (req:Request,res:Response,next:NextFunction) => {
     let token = extractToken(req);
     if(!token) {
@@ -20,6 +18,4 @@ const authMiddleware = (req:Request,res:Response,next:NextFunction) => {
     throw new BadRequest("Not authorised",error)
  }   
 }
-
-
 export default authMiddleware;
