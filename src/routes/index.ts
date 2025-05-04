@@ -4,5 +4,5 @@ import orderRouter from "../modules/order/route/order.routes";
 
 let indexRouter:Router = Router();
 indexRouter.use('/auth',authRouter);
-indexRouter.use("/order/",orderRouter);
+indexRouter.use("/order",orderRouter);
 export default indexRouter;

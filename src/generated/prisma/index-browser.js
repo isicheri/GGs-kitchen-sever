@@ -130,7 +130,9 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
   orderBy: 'orderBy',
-  paid: 'paid'
+  paid: 'paid',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ItemScalarFieldEnum = {

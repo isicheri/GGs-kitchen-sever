@@ -2106,18 +2106,24 @@ export namespace Prisma {
     id: string | null
     orderBy: string | null
     paid: $Enums.PaidType | null
+    createAt: Date | null
+    updatedAt: Date | null
   }
 
   export type OrderMaxAggregateOutputType = {
     id: string | null
     orderBy: string | null
     paid: $Enums.PaidType | null
+    createAt: Date | null
+    updatedAt: Date | null
   }
 
   export type OrderCountAggregateOutputType = {
     id: number
     orderBy: number
     paid: number
+    createAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -2126,18 +2132,24 @@ export namespace Prisma {
     id?: true
     orderBy?: true
     paid?: true
+    createAt?: true
+    updatedAt?: true
   }
 
   export type OrderMaxAggregateInputType = {
     id?: true
     orderBy?: true
     paid?: true
+    createAt?: true
+    updatedAt?: true
   }
 
   export type OrderCountAggregateInputType = {
     id?: true
     orderBy?: true
     paid?: true
+    createAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -2217,6 +2229,8 @@ export namespace Prisma {
     id: string
     orderBy: string
     paid: $Enums.PaidType
+    createAt: Date
+    updatedAt: Date
     _count: OrderCountAggregateOutputType | null
     _min: OrderMinAggregateOutputType | null
     _max: OrderMaxAggregateOutputType | null
@@ -2240,6 +2254,8 @@ export namespace Prisma {
     id?: boolean
     orderBy?: boolean
     paid?: boolean
+    createAt?: boolean
+    updatedAt?: boolean
     itemsOrdered?: boolean | Order$itemsOrderedArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
@@ -2248,21 +2264,27 @@ export namespace Prisma {
     id?: boolean
     orderBy?: boolean
     paid?: boolean
+    createAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     orderBy?: boolean
     paid?: boolean
+    createAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectScalar = {
     id?: boolean
     orderBy?: boolean
     paid?: boolean
+    createAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderBy" | "paid", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderBy" | "paid" | "createAt" | "updatedAt", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     itemsOrdered?: boolean | Order$itemsOrderedArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
@@ -2279,6 +2301,8 @@ export namespace Prisma {
       id: string
       orderBy: string
       paid: $Enums.PaidType
+      createAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["order"]>
     composites: {}
   }
@@ -2706,6 +2730,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Order", 'String'>
     readonly orderBy: FieldRef<"Order", 'String'>
     readonly paid: FieldRef<"Order", 'PaidType'>
+    readonly createAt: FieldRef<"Order", 'DateTime'>
+    readonly updatedAt: FieldRef<"Order", 'DateTime'>
   }
     
 
@@ -4259,7 +4285,9 @@ export namespace Prisma {
   export const OrderScalarFieldEnum: {
     id: 'id',
     orderBy: 'orderBy',
-    paid: 'paid'
+    paid: 'paid',
+    createAt: 'createAt',
+    updatedAt: 'updatedAt'
   };
 
   export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -4336,6 +4364,20 @@ export namespace Prisma {
    * Reference to a field of type 'PaidType[]'
    */
   export type ListEnumPaidTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaidType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -4424,6 +4466,8 @@ export namespace Prisma {
     id?: StringFilter<"Order"> | string
     orderBy?: StringFilter<"Order"> | string
     paid?: EnumPaidTypeFilter<"Order"> | $Enums.PaidType
+    createAt?: DateTimeFilter<"Order"> | Date | string
+    updatedAt?: DateTimeFilter<"Order"> | Date | string
     itemsOrdered?: ItemListRelationFilter
   }
 
@@ -4431,6 +4475,8 @@ export namespace Prisma {
     id?: SortOrder
     orderBy?: SortOrder
     paid?: SortOrder
+    createAt?: SortOrder
+    updatedAt?: SortOrder
     itemsOrdered?: ItemOrderByRelationAggregateInput
   }
 
@@ -4441,13 +4487,17 @@ export namespace Prisma {
     NOT?: OrderWhereInput | OrderWhereInput[]
     orderBy?: StringFilter<"Order"> | string
     paid?: EnumPaidTypeFilter<"Order"> | $Enums.PaidType
+    createAt?: DateTimeFilter<"Order"> | Date | string
+    updatedAt?: DateTimeFilter<"Order"> | Date | string
     itemsOrdered?: ItemListRelationFilter
-  }, "id">
+  }, "id" | "id">
 
   export type OrderOrderByWithAggregationInput = {
     id?: SortOrder
     orderBy?: SortOrder
     paid?: SortOrder
+    createAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: OrderCountOrderByAggregateInput
     _max?: OrderMaxOrderByAggregateInput
     _min?: OrderMinOrderByAggregateInput
@@ -4460,6 +4510,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Order"> | string
     orderBy?: StringWithAggregatesFilter<"Order"> | string
     paid?: EnumPaidTypeWithAggregatesFilter<"Order"> | $Enums.PaidType
+    createAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
   }
 
   export type ItemWhereInput = {
@@ -4572,6 +4624,8 @@ export namespace Prisma {
     id?: string
     orderBy: string
     paid: $Enums.PaidType
+    createAt?: Date | string
+    updatedAt?: Date | string
     itemsOrdered?: ItemCreateNestedManyWithoutOrderInput
   }
 
@@ -4579,6 +4633,8 @@ export namespace Prisma {
     id?: string
     orderBy: string
     paid: $Enums.PaidType
+    createAt?: Date | string
+    updatedAt?: Date | string
     itemsOrdered?: ItemUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -4586,6 +4642,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     orderBy?: StringFieldUpdateOperationsInput | string
     paid?: EnumPaidTypeFieldUpdateOperationsInput | $Enums.PaidType
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     itemsOrdered?: ItemUpdateManyWithoutOrderNestedInput
   }
 
@@ -4593,6 +4651,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     orderBy?: StringFieldUpdateOperationsInput | string
     paid?: EnumPaidTypeFieldUpdateOperationsInput | $Enums.PaidType
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     itemsOrdered?: ItemUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -4600,18 +4660,24 @@ export namespace Prisma {
     id?: string
     orderBy: string
     paid: $Enums.PaidType
+    createAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type OrderUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     orderBy?: StringFieldUpdateOperationsInput | string
     paid?: EnumPaidTypeFieldUpdateOperationsInput | $Enums.PaidType
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OrderUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     orderBy?: StringFieldUpdateOperationsInput | string
     paid?: EnumPaidTypeFieldUpdateOperationsInput | $Enums.PaidType
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ItemCreateInput = {
@@ -4747,6 +4813,17 @@ export namespace Prisma {
     not?: NestedEnumPaidTypeFilter<$PrismaModel> | $Enums.PaidType
   }
 
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type ItemListRelationFilter = {
     every?: ItemWhereInput
     some?: ItemWhereInput
@@ -4761,18 +4838,24 @@ export namespace Prisma {
     id?: SortOrder
     orderBy?: SortOrder
     paid?: SortOrder
+    createAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type OrderMaxOrderByAggregateInput = {
     id?: SortOrder
     orderBy?: SortOrder
     paid?: SortOrder
+    createAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type OrderMinOrderByAggregateInput = {
     id?: SortOrder
     orderBy?: SortOrder
     paid?: SortOrder
+    createAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EnumPaidTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -4783,6 +4866,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPaidTypeFilter<$PrismaModel>
     _max?: NestedEnumPaidTypeFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -4902,6 +4999,10 @@ export namespace Prisma {
 
   export type EnumPaidTypeFieldUpdateOperationsInput = {
     set?: $Enums.PaidType
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type ItemUpdateManyWithoutOrderNestedInput = {
@@ -5028,6 +5129,17 @@ export namespace Prisma {
     not?: NestedEnumPaidTypeFilter<$PrismaModel> | $Enums.PaidType
   }
 
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type NestedEnumPaidTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.PaidType | EnumPaidTypeFieldRefInput<$PrismaModel>
     in?: $Enums.PaidType[] | ListEnumPaidTypeFieldRefInput<$PrismaModel>
@@ -5036,6 +5148,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPaidTypeFilter<$PrismaModel>
     _max?: NestedEnumPaidTypeFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedFloatFilter<$PrismaModel = never> = {
@@ -5136,12 +5262,16 @@ export namespace Prisma {
     id?: string
     orderBy: string
     paid: $Enums.PaidType
+    createAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type OrderUncheckedCreateWithoutItemsOrderedInput = {
     id?: string
     orderBy: string
     paid: $Enums.PaidType
+    createAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type OrderCreateOrConnectWithoutItemsOrderedInput = {
@@ -5164,12 +5294,16 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     orderBy?: StringFieldUpdateOperationsInput | string
     paid?: EnumPaidTypeFieldUpdateOperationsInput | $Enums.PaidType
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OrderUncheckedUpdateWithoutItemsOrderedInput = {
     id?: StringFieldUpdateOperationsInput | string
     orderBy?: StringFieldUpdateOperationsInput | string
     paid?: EnumPaidTypeFieldUpdateOperationsInput | $Enums.PaidType
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ItemCreateManyOrderInput = {

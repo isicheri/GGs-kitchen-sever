@@ -23,10 +23,12 @@ model User {
 
 
 model Order {
-  id String @id @default(uuid())
+  id String @id @unique @default(uuid())
   orderBy String
   itemsOrdered Item[]
   paid PaidType
+  createAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Item {
@@ -35,7 +37,7 @@ model Item {
   price Float
   quantity Int
   orderId String
-  order Order @relation(fields: [orderId],references: [id])
+  order Order @relation(fields: [orderId],references: [id],onDelete: Cascade)
 }
 
 

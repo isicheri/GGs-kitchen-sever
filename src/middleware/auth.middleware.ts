@@ -14,6 +14,7 @@ const authMiddleware = (req:Request,res:Response,next:NextFunction) => {
  try {
     let userPayload = verify(token,JWT_SECRET as string) as IUserJwt; 
     req.user = userPayload;
+    next()
  } catch (error) {
     throw new BadRequest("Not authorised",error)
  }   

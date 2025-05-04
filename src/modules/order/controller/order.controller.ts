@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import prismaClient from "../../../utils/prismaClient/prismaClent"
-import { addItemSchema, createOrderSchema, deleteOrderSchema } from "../validation/order.validation"
+import { createOrderSchema, deleteOrderSchema, updateOrderSchema } from "../validation/order.validation"
 import { BadRequest } from "../../../utils/Errors/badRequestError/badRequest";
 import { Order } from "../../../generated/prisma";
 
@@ -9,8 +9,14 @@ const parsedData = createOrderSchema.safeParse(req.body);
 if(!parsedData.success) {
     throw new BadRequest("cannot process input",parsedData.error);
 }
-const {orderBy,paidType} = parsedData.data;
-const order = await prismaClient.order.create({data: {orderBy:orderBy,paid: paidType}});
+const {orderBy,paidType,itemOrdered} = parsedData.data;
+const order = await prismaClient.order.create({data: {orderBy:orderBy,paid: paidType,itemsOrdered: {
+    create: itemOrdered.map((value) => ({
+        name: value.name,
+        price: value.price,
+        quantity: value.quantity,
+    }))
+}}});
 res.status(201).json({
     success: true,
     message: "order created successfully",
@@ -20,24 +26,8 @@ res.status(201).json({
 })
 } 
 
-export const addItemsToOrder = async(req:Request,res:Response,next:NextFunction) => {
-    const parsedData = addItemSchema.safeParse(req.body)
-    if(!parsedData.success) {
-        throw new BadRequest("invalid input! check again",parsedData.error);
-    }
-   const {itemsOrdered} = parsedData.data;
-   const items = await prismaClient.item.createMany({data: itemsOrdered});
-   res.status(201).json({
-    success: true,
-    message: "items added successfully",
-    data: {
-        items
-    }
-})
-}
-
 export const updateOrder = async(req:Request,res:Response,next:NextFunction) => {
-const parsedData =  createOrderSchema.safeParse(req.body);
+const parsedData =  updateOrderSchema.safeParse(req.body);
 const {orderId} = req.params;
 if(!parsedData.success) {
     throw new BadRequest("invalid input! check again",parsedData.error);
@@ -72,6 +62,30 @@ const getOrderById = async(orderId: string): Promise<Order | null> => {
     return order
 }
 
+
 //admin features
 
 //the get feature
+
+export const getAllOrders = async(req:Request,res:Response,next:NextFunction) => {
+    const orders = await prismaClient.order.findMany({select: {
+        orderBy: true,
+        itemsOrdered: true,
+        paid: true,
+        createAt: true
+    }})
+    res.status(200).json({
+        success: true,
+         data: orders
+    })
+}
+
+export const getAllLatestOrders = async(req:Request,res:Response,next:NextFunction) => {
+    const orders = await prismaClient.order.findMany({take: 10,select: {orderBy:true,itemsOrdered:true,paid: true},orderBy: {
+        createAt: "asc"
+    }})
+    res.status(200).json({
+        success: true,
+        data: orders
+    })
+}

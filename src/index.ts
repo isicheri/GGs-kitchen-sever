@@ -10,8 +10,8 @@ const App:Express = express();
 App.use(express.json());
 App.use(cors());
 App.use(helmet());
-App.use('/api/v1',indexRouter);
 App.use(loggerMiddleware);
+App.use('/api/v1',indexRouter);
 
 
 
