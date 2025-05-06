@@ -1,4 +1,4 @@
-import { User } from "../../../generated/prisma"
+import { User } from "../../../../generated/prisma";
 
 export type Iuser = Pick<User,"id" | "username" | "userType" | "password">;
 

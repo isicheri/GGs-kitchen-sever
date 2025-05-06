@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express"
 import prismaClient from "../../../utils/prismaClient/prismaClent"
 import { createOrderSchema, deleteOrderSchema, updateOrderSchema } from "../validation/order.validation"
 import { BadRequest } from "../../../utils/Errors/badRequestError/badRequest";
-import { Order } from "../../../generated/prisma";
+import { Order } from "../../../../generated/prisma";
 
 export const createOrder = async(req:Request,res:Response,next:NextFunction) => {
 const parsedData = createOrderSchema.safeParse(req.body);
