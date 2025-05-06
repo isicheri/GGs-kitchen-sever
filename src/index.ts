@@ -15,7 +15,9 @@ App.use(loggerMiddleware);
 App.use('/api/v1',indexRouter);
 App.use(errorMiddleware);
 
-console.log(EVIRONMENT)
+App.get("/",(req,res,next) => {
+    res.send("hello world bitch");
+})
 
 if(EVIRONMENT === "production") {
     console.log("In prod mode")
