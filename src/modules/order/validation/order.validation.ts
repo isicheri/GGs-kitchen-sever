@@ -23,3 +23,7 @@ export const updateOrderSchema = z.object({
 export const deleteOrderSchema = z.object({
     orderId: z.string()
 })
+
+export const findOrderSchema = z.object({
+    paidType: z.enum(["YES","NO"]),
+})

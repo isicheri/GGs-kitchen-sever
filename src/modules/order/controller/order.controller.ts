@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express"
 import prismaClient from "../../../utils/prismaClient/prismaClent"
-import { createOrderSchema, deleteOrderSchema, updateOrderSchema } from "../validation/order.validation"
+import { createOrderSchema, deleteOrderSchema, findOrderSchema, updateOrderSchema } from "../validation/order.validation"
 import { BadRequest } from "../../../utils/Errors/badRequestError/badRequest";
 import { Order } from "../../../../generated/prisma";
+import { findManyQuery } from "../repos/order.repos";
 
 export const createOrder = async(req:Request,res:Response,next:NextFunction) => {
 const parsedData = createOrderSchema.safeParse(req.body);
@@ -82,10 +83,23 @@ export const getAllOrders = async(req:Request,res:Response,next:NextFunction) =>
 
 export const getAllLatestOrders = async(req:Request,res:Response,next:NextFunction) => {
     const orders = await prismaClient.order.findMany({take: 10,select: {orderBy:true,itemsOrdered:true,paid: true},orderBy: {
-        createAt: "asc"
+        createAt: "desc"
     }})
     res.status(200).json({
         success: true,
         data: orders
     })
 }
+
+export const filterOrdersByPaid = async (req:Request,res:Response,next:NextFunction) => { 
+    const parsedData = findOrderSchema.safeParse(req.params);
+    if(!parsedData.success) {
+        throw new BadRequest(parsedData.error.message,parsedData.error)
+    }
+    const {paidType} = parsedData.data
+    const orders = await findManyQuery("order",paidType);
+     res.status(200).json({
+        success: true,
+        data: orders
+    })
+} 

@@ -9,7 +9,7 @@ import { EVIRONMENT } from "./utils/secrets";
 
 const App:Express = express();
 App.use(express.json());
-App.use(cors({origin: "*",methods: ["GET","POST","PUT","DELETE"]}));
+// App.use(cors({origin: "*",methods: ["GET","POST","PUT","DELETE"]}));
 App.use(helmet());
 App.use(loggerMiddleware);
 App.use('/api/v1',indexRouter);
