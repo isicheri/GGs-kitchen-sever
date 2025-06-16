@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Edu+QLD+Hand:wght@500&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/settings.css">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+
+    <!-- Modal Overlay -->
+<div id="modalOverlay" class="modal-overlay hidden"> 
+  <div class="modal-content">
+    <button class="close-modal" id="closeModal">&times;</button>
+    <form id="userForm" class="user-form">
+      <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="text" id="password" name="password"/>
+          </div>
+
+           <div class="form-actions">
+            <button type="submit" class="submit-btn">Enter</button>
+          </div>
+    </form>
+    </div>
+  </div>
+
+
+    <div class="dashboard-container">
+    <aside class="sidebar">
+      <h2 class="logo">Welcome, <%= user.username %></h2>
+      <ul class="nav">
+          <li class="<%= currentPath === '/dashboard' ? 'active' : '' %>">
+          <a href="/user/dashboard" class="link_a">Dashboard</a>
+          <img src="/assets/dashimg.svg" alt="">
+        </li>
+        <li class="<%= currentPath === '/orders' ? 'active' : '' %>">
+          <a href="/user/orders" class="link_a">Orders</a>
+          <img src="/assets/orderimg.svg" alt="">
+        </li>
+        <li class="<%= currentPath === '/new-orders' ? 'active' : '' %>">
+          <a href="/user/new-orders" class="link_a">New Orders</a>
+          <img src="/assets/newimgorder.svg" alt="">
+        </li>
+        <li class="<%= currentPath === '/settings' ? 'active' : '' %>">
+          <a href="/user/settings" class="link_a">Settings</a>
+          <img src="/assets/settingsimg.svg" alt="">
+        </li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="admin-info">
+          <form action="/auth/logout" method="post">
+              <button class="logout-btn">
+                <p class="logout-text">Logout</p>
+              <img src="/assets/logout.svg" alt="logout-svg">
+              </button>
+        </form>
+        </div>
+      </header>
+
+      <section class="content-area">
+        <h1>Admin Settings</h1>
+        <div class="add-user-btn">
+           <p>Add user</p>
+        </div>
+      </section>
+
+      <section class="container">
+        <!-- ⚠️ Feedback area -->
+       <div id="statusMessage" class="status-message hidden">message</div>
+
+        <!-- 🌀 Loader -->
+        <div id="loaderWrapper" class="loader-wrapper hidden">
+  <div class="loader">
+    <span></span>
+  </div>
+</div>
+
+
+<div class="users-containter"></div>
+
+      </section>
+
+
+    </main>
+  </div>
+
+  <script src="/js/settings.js"></script>
+</body>
+</html>

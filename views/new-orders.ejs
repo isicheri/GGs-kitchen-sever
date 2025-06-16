@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Order</title>
+  <link rel="stylesheet" href="/css/newOrder.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <h2 class="logo">Welcome, <%= user.username %></h2>
+      <ul class="nav">
+          <li class="<%= currentPath === '/dashboard' ? 'active' : '' %>">
+          <a href="/user/dashboard" class="link_a">Dashboard</a>
+          <img src="/assets/dashimg.svg" alt="">
+        </li>
+        <li class="<%= currentPath === '/orders' ? 'active' : '' %>">
+          <a href="/user/orders" class="link_a">Orders</a>
+          <img src="/assets/orderimg.svg" alt="">
+        </li>
+        <li class="<%= currentPath === '/new-orders' ? 'active' : '' %>">
+          <a href="/user/new-orders" class="link_a">New Orders</a>
+          <img src="/assets/newimgorder.svg" alt="">
+        </li>
+        <li class="<%= currentPath === '/settings' ? 'active' : '' %>">
+          <a href="/user/settings" class="link_a">Settings</a>
+          <img src="/assets/settingsimg.svg" alt="">
+        </li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="admin-info">
+          <form action="/auth/logout" method="post">
+            <button class="logout-btn">
+              <p class="logout-text">Logout</p>
+              <img src="/assets/logout.svg" alt="logout-svg">
+            </button>
+          </form>
+        </div>
+      </header>
+
+      <section class="content-area">
+        <h1 class="page-title">Create New Order</h1>
+
+        <!-- ⚠️ Feedback area -->
+        <div id="statusMessage" class="status-message hidden"></div>
+
+        <!-- 🌀 Loader -->
+        <div id="loaderWrapper" class="loader-wrapper hidden">
+  <div class="loader">
+    <span></span>
+  </div>
+</div>
+
+        <!-- 🧾 Order Form -->
+        <form id="orderForm" class="order-form">
+          <div class="form-group">
+            <label for="orderBy">Customer Name</label>
+            <input type="text" id="orderBy" name="orderBy" required />
+          </div>
+
+          <div class="form-group">
+            <label for="paymentMethod">Payment Method</label>
+            <input type="text" id="paymentMethod" name="paymentMethod"/>
+          </div>
+
+
+          <div class="form-group">
+            <label for="paidType">Payment Status</label>
+            <select id="paidType" name="paidType" required>
+              <option value="">-- Select --</option>
+              <option value="YES">Paid</option>
+              <option value="NO">Unpaid</option>
+            </select>
+          </div>
+
+          <div class="items-section">
+            <h3>Items</h3>
+            <div id="itemsContainer"></div>
+            <button type="button" id="addItemBtn" class="add-item-btn">+ Add Item</button>
+          </div>
+
+          <div class="total-display">
+            <strong>Total:</strong> ₦<span id="totalAmount">0</span>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="submit-btn">Submit Order</button>
+          </div>
+        </form>
+
+      </section>
+    </main>
+  </div>
+
+  <script src="/js/newOrder.js" type="module"></script>
+</body>
+</html>

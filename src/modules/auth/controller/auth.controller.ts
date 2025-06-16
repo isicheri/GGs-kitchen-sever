@@ -5,7 +5,7 @@ import { CreateUserSchema, GetUserSchema } from "../validation/auth.validaton";
 import { BadRequest } from "../../../utils/Errors/badRequestError/badRequest";
 import { createUser,getUser} from "../../user/service/user.service";
 import { IUserJwt } from "../../user/Dto/uset.dto";
-import { JWT_SECRET } from "../../../utils/secrets";
+import { EVIRONMENT, JWT_SECRET } from "../../../utils/secrets";
 
 export const Register = async(req:Request,res:Response,next:NextFunction) => {
 const parsedData = CreateUserSchema.safeParse(req.body);
@@ -26,34 +26,40 @@ data: {
 })
 }
 
-
 export const login = async (req:Request,res:Response,next:NextFunction) => {
-    const parsedData = GetUserSchema.safeParse(req.body);
+    try {
+        console.log("loginning in...")
+          const parsedData = GetUserSchema.safeParse(req.body);
     if(!parsedData.success) {
-        throw new BadRequest(parsedData.error.message,parsedData.error)
+        req.flash("error", "Invalid form input.");
+      return res.redirect("/auth/login");
     }
     const findUser = await getUser({username: parsedData.data.username})
     if(!findUser) {
-        throw new BadRequest("Username does not exist",null)
+        req.flash("error", "Username does not exist.");
+      return res.redirect("/auth/login")
     }
     const validPassword = checkPassword(parsedData.data.password)(findUser.password);
     if(!validPassword) {
-     throw new BadRequest("password incorrect",null);
+     req.flash("error", "Password incorrect.");
+      return res.redirect("/auth/login");
     }
     const jwtPayload:IUserJwt = {id: findUser.id,username:findUser.username,userType: findUser.userType}; 
     const accessToken = sign(jwtPayload,JWT_SECRET as string,{expiresIn: "1hr"})
-    res.status(200).json({
-        message: "use successfully logged in",
-        success: true,
-        data: {
-            id: findUser.id,
-            username: findUser.username,
-            userType: findUser.userType
-        },
-        token: accessToken
+    
+    res.cookie("jwt",accessToken,{
+        httpOnly: true,
+        sameSite: "lax",
+        secure: EVIRONMENT === "production",
+        maxAge: 60 * 60 * 1000
     })
-}
 
+    res.redirect("/user/dashboard")
+    } catch (error) {
+       req.flash("error", "Something went wrong. Try again.");
+    res.redirect("/auth/login");   
+    }
+}
 
 const checkPassword = (password:string) => {
     return (hashedPasswod:string):boolean => {
@@ -61,3 +67,12 @@ const checkPassword = (password:string) => {
     return decryptedPasswod
     }
 }
+
+export const logout = (req: Request, res: Response) => {
+  res.clearCookie("jwt");
+  res.redirect("/auth/login");
+};
+
+export const renderLogin = (req: Request, res: Response) => {
+  res.render("login");
+};

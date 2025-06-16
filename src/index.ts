@@ -1,23 +1,98 @@
 import express,{ Express } from "express";
-import cors from "cors";
 import helmet from "helmet";
-import { port } from "./utils/secrets";
+import { port, SESSIONSEC,EVIRONMENT } from "./utils/secrets";
 import errorMiddleware from "./middleware/error.middleware";
 import indexRouter from "./routes";
 import loggerMiddleware from "./middleware/logger.middleware";
-import { EVIRONMENT } from "./utils/secrets";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import flash from "connect-flash";
+import path from "path";
 
 const App:Express = express();
-App.use(express.json());
-// App.use(cors({origin: "*",methods: ["GET","POST","PUT","DELETE"]}));
-App.use(helmet());
-App.use(loggerMiddleware);
-App.use('/api/v1',indexRouter);
-App.use(errorMiddleware);
+const isProduction = EVIRONMENT === "production";
+App.use(cookieParser());
+App.use(session({
+    secret: SESSIONSEC as string,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: isProduction,
+      httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 2
+    }
+}))
 
+App.use(express.json());
+App.use(express.urlencoded({ extended: false }));
+App.use(express.static(path.join(process.cwd(),"public")));
+App.set("view engine","ejs");
+App.set("views",path.join(process.cwd(),"views"));
+App.use(
+   helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+
+      scriptSrc: [
+        "'self'",
+        'https://cdn.jsdelivr.net', // e.g., Chart.js
+        ...(isProduction ? [] : ["'unsafe-inline'"]), // only allow inline in dev
+      ],
+
+      styleSrc: [
+        "'self'",
+        'https://fonts.googleapis.com',
+        ...(isProduction ? [] : ["'unsafe-inline'"]),
+      ],
+
+      styleSrcElem: [
+        "'self'",
+        'https://fonts.googleapis.com',
+      ],
+
+      fontSrc: [
+        "'self'",
+        'https://fonts.gstatic.com',
+      ],
+
+      connectSrc: [
+        "'self'",
+        ...(isProduction
+          ? ['https://your-api.com'] // Replace with prod API
+          : ['http://localhost:4000']),
+      ],
+
+      imgSrc: [
+        "'self'",
+        'data:',
+        'https:',
+      ],
+
+      objectSrc: ["'none'"],
+
+      upgradeInsecureRequests: isProduction ? [] : null, // enable HTTPS upgrade in prod only
+    },
+  })
+);
+
+
+App.use(flash())
+App.use(loggerMiddleware);
+App.use((req, res, next) => {
+  res.locals.success_msg = req.flash("success");
+  res.locals.error_msg = req.flash("error");
+  next();
+});
+App.use('/',indexRouter);
 App.get("/",(req,res,next) => {
-    res.send("hello world bitch");
+    res.redirect("/auth/login");
 })
+App.use((req, res, next) => {
+  console.warn(`404 - Not Found: ${req.method} ${req.originalUrl}`);
+  res.status(404).render('404');
+
+});
+App.use(errorMiddleware)
 
 if(EVIRONMENT === "production") {
     console.log("In prod mode")
@@ -28,3 +103,5 @@ if(EVIRONMENT === "production") {
         console.log(`server is running on port ${port}`)
     });
 }
+
+//DATABASE_URL="postgresql://GGuser:GGpassword@localhost:5432/GGdb?schema=public"

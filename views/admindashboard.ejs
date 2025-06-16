@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Edu+QLD+Hand:wght@500&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/css/admindashboard.css">
+  <title>Admin Dashboard</title>
+</head>
+<body>
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <h2 class="logo">Welcome, <%= user.username %></h2>
+      <ul class="nav">
+        <li class="<%= currentPath === '/dashboard' ? 'active' : '' %>">
+          <a href="/user/dashboard" class="link_a">Dashboard</a>
+          <img src="/assets/dashimg.svg" alt="">
+        </li>
+        <li class="<%= currentPath === '/orders' ? 'active' : '' %>">
+          <a href="/user/orders" class="link_a">Orders</a>
+          <img src="/assets/orderimg.svg" alt="">
+        </li>
+        <li class="<%= currentPath === '/new-orders' ? 'active' : '' %>">
+          <a href="/user/new-orders" class="link_a">New Orders</a>
+          <img src="/assets/newimgorder.svg" alt="">
+        </li>
+        <li class="<%= currentPath === '/settings' ? 'active' : '' %>">
+          <a href="/user/settings" class="link_a">Settings</a>
+          <img src="/assets/settingsimg.svg" alt="">
+        </li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="admin-info">
+          <form action="/auth/logout" method="post">
+            <button class="logout-btn">
+              <p class="logout-text">Logout</p>
+              <img src="/assets/logout.svg" alt="logout-svg">
+            </button>
+          </form>
+        </div>
+      </header>
+
+      <section class="content-area">
+        <h1>Dashboard Overview</h1>
+
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+          <div class="card show" style="animation-delay: 0.1s;">
+            <div class="card-title">Completed Orders</div>
+            <div class="card-value"><%= commpletedOrder %></div>
+          </div>
+
+          <div class="card show" style="animation-delay: 0.2s;">
+            <div class="card-title">Today's Orders</div>
+            <div class="card-value"><%= todaysOrderCount %></div>
+          </div>
+
+          <div class="card show" style="animation-delay: 0.3s;">
+            <div class="card-title">Today's Sales</div>
+            <div class="card-value">₦<%= todayTotalPrice.toFixed(2) %></div>
+            <div class="percent-change <%= percentChangeOfTotalPrice > 0 ? 'positive' : (percentChangeOfTotalPrice < 0 ? 'negative' : '') %>">
+              <% if (percentChangeOfTotalPrice > 0) { %>🔺<% } else if (percentChangeOfTotalPrice < 0) { %>🔻<% } %>
+              <%= Math.abs(percentChangeOfTotalPrice).toFixed(2) %>%
+            </div>
+          </div>
+
+          <div class="card show" style="animation-delay: 0.4s;">
+            <div class="card-title">This Week's Orders</div>
+            <div class="card-value"><%= thisWeekCount %></div>
+            <div class="percent-change <%= percentChange > 0 ? 'positive' : (percentChange < 0 ? 'negative' : '') %>">
+              <% if (percentChange > 0) { %>🔺<% } else if (percentChange < 0) { %>🔻<% } %>
+              <%= Math.abs(percentChange).toFixed(2) %>%
+            </div>
+          </div>
+
+          <div class="card show" style="animation-delay: 0.5s;">
+            <div class="card-title">This Month's Sales</div>
+            <div class="card-value">₦<%= thisMonthTotalPrice.toFixed(2) %></div>
+            <div class="percent-change <%= percentChangeOfTotalPriceMonthly > 0 ? 'positive' : (percentChangeOfTotalPriceMonthly < 0 ? 'negative' : '') %>">
+              <% if (percentChangeOfTotalPriceMonthly > 0) { %>🔺<% } else if (percentChangeOfTotalPriceMonthly < 0) { %>🔻<% } %>
+              <%= Math.abs(percentChangeOfTotalPriceMonthly).toFixed(2) %>%
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts">
+          <div class="chart-container">
+            <div class="chart-title">Weekly Sales</div>
+            <canvas id="lineChart"></canvas>
+          </div>
+
+          <div class="chart-container">
+            <div class="chart-title">Most Ordered Items</div>
+            <canvas id="pieChart"></canvas>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+     const graphData = <%- JSON.stringify(graphData) %>;
+  const labels = graphData.map((d) => d.date);
+  const totals = graphData.map((d) => d.totalSales); // Make sure you're using the correct key
+
+  const lineCtx = document.getElementById('lineChart').getContext('2d');
+
+  const comboChart = new Chart(lineCtx, {
+    type: 'bar', // Base type
+    data: {
+      labels,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Sales (Bar)',
+          data: totals,
+          backgroundColor: '#7F5AF0',
+          borderRadius: 6,
+        },
+        {
+          type: 'line',
+          label: 'Sales (Line)',
+          data: totals,
+          borderColor: 'var(--primary)',
+          backgroundColor: '#6249D6',
+          fill: false,
+          tension: 0.3,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          borderWidth: 2,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: 'white'
+          },
+          grid: {
+            color: '#333'
+          }
+        },
+        x: {
+          ticks: {
+            color: 'white'
+          },
+          grid: {
+            color: '#333'
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: 'white'
+          }
+        }
+      }
+    }
+  });
+    // Prepare data for pie chart
+    const pieData = {
+      labels: <%- JSON.stringify(pieChartData.lebels) %>,
+      datasets: [{
+        data: <%- JSON.stringify(pieChartData.data) %>,
+        backgroundColor: [
+          '#d73b5c',
+          '#7e0926',
+          '#ff6384',
+          '#ff9f40',
+          '#36a2eb',
+          '#4bc0c0',
+          '#9966ff',
+          '#c9cbcf'
+        ],
+        hoverOffset: 10
+      }]
+    };
+
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(pieCtx, {
+      type: 'pie',
+      data: pieData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: {
+              color: 'white'
+            }
+          }
+        }
+      }
+    });
+  window.addEventListener('resize', () => {
+  comboChart.resize();
+  pieChart.resize();
+});
+  </script>
+</body>
+</html>
