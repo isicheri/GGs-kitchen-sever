@@ -184,11 +184,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://GgsDb_owner:npg_QI4JiulKhEF2@ep-plain-darkness-a4xlpd8a-pooler.us-east-1.aws.neon.tech/GgsDb?sslmode=require"
+        "value": null
       }
     }
   },

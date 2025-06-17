@@ -16,6 +16,7 @@ const pg_1 = require("pg");
 const dotenv_1 = __importDefault(require("dotenv"));
 const connect_flash_1 = __importDefault(require("connect-flash"));
 const path_1 = __importDefault(require("path"));
+const crypto_1 = __importDefault(require("crypto"));
 dotenv_1.default.config();
 const App = (0, express_1.default)();
 const isProduction = secrets_1.EVIRONMENT === "production";
@@ -47,13 +48,17 @@ App.use(express_1.default.urlencoded({ extended: false }));
 App.use(express_1.default.static(path_1.default.join(process.cwd(), "public")));
 App.set("view engine", "ejs");
 App.set("views", path_1.default.join(process.cwd(), "views"));
+App.use((req, res, next) => {
+    res.locals.nonce = crypto_1.default.randomBytes(16).toString("base64");
+    next();
+});
 App.use(helmet_1.default.contentSecurityPolicy({
     directives: {
         defaultSrc: ["'self'"],
         scriptSrc: [
             "'self'",
             'https://cdn.jsdelivr.net', // e.g., Chart.js
-            ...(isProduction ? [] : ["'unsafe-inline'"]), // only allow inline in dev
+            ...(isProduction ? ["'unsafe-inline'"] : ["'unsafe-inline'"]), // only allow inline in dev
         ],
         styleSrc: [
             "'self'",

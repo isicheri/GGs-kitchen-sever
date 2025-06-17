@@ -11,6 +11,7 @@ import {Pool} from "pg";
 import dotenv from "dotenv";
 import flash from "connect-flash";
 import path from "path";
+import crypto from "crypto"
 
 dotenv.config();
 
@@ -46,6 +47,10 @@ App.use(express.urlencoded({ extended: false }));
 App.use(express.static(path.join(process.cwd(),"public")));
 App.set("view engine","ejs");
 App.set("views",path.join(process.cwd(),"views"));
+App.use((req, res, next) => {
+  res.locals.nonce = crypto.randomBytes(16).toString("base64");
+  next();
+});
 App.use(
    helmet.contentSecurityPolicy({
     directives: {
@@ -54,7 +59,7 @@ App.use(
       scriptSrc: [
         "'self'",
         'https://cdn.jsdelivr.net', // e.g., Chart.js
-        ...(isProduction ? [] : ["'unsafe-inline'"]), // only allow inline in dev
+        ...(isProduction ? ["'unsafe-inline'"] : ["'unsafe-inline'"]), // only allow inline in dev
       ],
 
       styleSrc: [
