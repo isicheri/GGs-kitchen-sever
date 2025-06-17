@@ -17,6 +17,7 @@ const closeEditModal = document.getElementById("closeEditModal");
 const editStatusSelect = document.getElementById("editStatusSelect");
 const editStatusForm = document.getElementById("editStatusForm");
 const editPaymentInput = document.getElementById("paymentMethod");
+const downloadCsvBtn = document.querySelector(".download-csv-btn")
 
 searchInput.addEventListener('input', debounce(() => {
   currentSearch = searchInput.value.trim();
@@ -125,7 +126,7 @@ function showOrderModal(order) {
     <h2 class="text_deco">Order Details</h2>
     <p><strong>Customer:</strong> ${order.orderBy}</p>
     <p><strong>Items:</strong> ${order.itemsOrdered.map(item => item.name || item).join(", ")}</p>
-    <p><strong>Total:₦</strong> ${order.itemsOrdered.reduce((sum, item) => sum + (item.price * item.quantity), 0)}</p>
+    <p><strong>Total: ₦</strong> ${order.itemsOrdered.reduce((sum, item) => sum + (item.price * item.quantity), 0)}</p>
     <p><strong>Paid:</strong> ${order.paid}</p>
     <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
     <p><strong>Date:</strong> ${new Date(order.createAt).toLocaleString()}</p>
@@ -133,6 +134,21 @@ function showOrderModal(order) {
   modalOverlay.classList.add("show");
   modalOverlay.classList.remove("hidden");
 }
+
+downloadCsvBtn.addEventListener("click",() => {
+  const elements = Array.from(modalDetails.querySelectorAll("h2, p"));
+  const lines = elements.map((el) => el.textContent.trim());
+  const csvContent = lines.join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "order-details.csv";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+})
 
 closeModal.addEventListener("click", () => {
   modalOverlay.classList.remove("show");

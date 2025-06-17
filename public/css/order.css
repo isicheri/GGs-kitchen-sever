@@ -319,6 +319,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   z-index: 9999;
   opacity: 0;
   pointer-events: none;
@@ -332,7 +333,7 @@ body {
 
 /* Modal Box */
 .modal-content {
-  background-color: var(--primary);
+  background-color: var(--primary-hover);
   color: var(--text-light);
   padding: 2rem;
   border-radius: 12px;
@@ -393,6 +394,19 @@ body {
 .edit-modal-overlay.active .edit-modal {
   transform: scale(1);
   opacity: 1;
+}
+
+.download-csv-btn {
+  background-color: #6249D6;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 30%;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 .edit-modal {
