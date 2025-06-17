@@ -143,7 +143,7 @@ downloadCsvBtn.addEventListener("click",() => {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "order-details.csv";
+  a.download = `order-details-${lines[1].trim()}.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
