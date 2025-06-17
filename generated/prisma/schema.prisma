@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String   @id @default(uuid())
+  username String   @unique
+  userType UserType @default(SELLER)
+  password String
+}
+
+model Order {
+  id            String   @id @unique @default(uuid())
+  orderBy       String
+  itemsOrdered  Item[]
+  paid          PaidType
+  paymentMethod String?
+  createAt      DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Item {
+  id       String @id @default(uuid())
+  name     String
+  price    Float
+  quantity Int
+  orderId  String
+  order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+enum UserType {
+  ADMIN
+  SELLER
+}
+
+enum PaidType {
+  YES
+  NO
+}
