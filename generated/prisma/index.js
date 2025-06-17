@@ -168,6 +168,14 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "windows"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -185,17 +193,16 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": null
+        "value": "postgresql://GgsDb_owner:npg_QI4JiulKhEF2@ep-plain-darkness-a4xlpd8a-pooler.us-east-1.aws.neon.tech/GgsDb?sslmode=require"
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String   @id @default(uuid())\n  username String   @unique\n  userType UserType @default(SELLER)\n  password String\n}\n\nmodel Order {\n  id            String   @id @unique @default(uuid())\n  orderBy       String\n  itemsOrdered  Item[]\n  paid          PaidType\n  paymentMethod String?\n  createAt      DateTime @default(now())\n  updatedAt     DateTime @updatedAt\n}\n\nmodel Item {\n  id       String @id @default(uuid())\n  name     String\n  price    Float\n  quantity Int\n  orderId  String\n  order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)\n}\n\nenum UserType {\n  ADMIN\n  SELLER\n}\n\nenum PaidType {\n  YES\n  NO\n}\n",
-  "inlineSchemaHash": "ad0a19e674f9cfd2fd82b92dd1bfd66586f1fe2e6cdca3df2667600bd128eae2",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../generated/prisma\"\n  binaryTargets = [\"native\", \"windows\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String   @id @default(uuid())\n  username String   @unique\n  userType UserType @default(SELLER)\n  password String\n}\n\nmodel Order {\n  id            String   @id @unique @default(uuid())\n  orderBy       String\n  itemsOrdered  Item[]\n  paid          PaidType\n  paymentMethod String?\n  createAt      DateTime @default(now())\n  updatedAt     DateTime @updatedAt\n}\n\nmodel Item {\n  id       String @id @default(uuid())\n  name     String\n  price    Float\n  quantity Int\n  orderId  String\n  order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)\n}\n\nenum UserType {\n  ADMIN\n  SELLER\n}\n\nenum PaidType {\n  YES\n  NO\n}\n",
+  "inlineSchemaHash": "46ce026c00a3cd2fbdfe4a0b0a95a2a5d73cbfabb03b26d86acd1cd67033fb96",
   "copyEngine": true
 }
 
@@ -236,6 +243,10 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
 path.join(process.cwd(), "generated/prisma/query_engine-windows.dll.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
+path.join(process.cwd(), "generated/prisma/libquery_engine-debian-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "generated/prisma/schema.prisma")
