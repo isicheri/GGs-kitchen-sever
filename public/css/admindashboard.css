@@ -294,6 +294,10 @@
       .chart-container {
         flex-basis: 100%;
       }
+      #lineChart {
+  width: 100% !important;
+  height: 85% !important;
+}
     }
 
     .link_a {

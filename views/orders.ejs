@@ -24,12 +24,20 @@
     <span class="close-edit-modal" id="closeEditModal">&times;</span>
     <h2 class="h2-payment">Edit Payment Status</h2>
     <form id="editStatusForm">
-      <label for="editStatusSelect">Change Status:</label>
+      <div>
+        <label for="editStatusSelect">Change Status:</label>
       <select id="editStatusSelect">
         <option value="YES">Paid</option>
         <option value="NO">Unpaid</option>
       </select>
-      <button type="submit" class="update-btn-class">Update Status</button>
+      </div>
+     <div>
+      <label for="editStatusSelect">payment method:</label>
+       <input type="text" name="paymentMethod" id="paymentMethod">
+     </div>
+      <div>
+        <button type="submit" class="update-btn-class">Update Order</button>
+      </div>
     </form>
   </div>
 </div>

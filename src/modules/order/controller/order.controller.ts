@@ -33,8 +33,9 @@ const {orderId} = req.params;
 if(!parsedData.success) {
     throw new BadRequest("invalid input! check again",parsedData.error);
 }
-const order = await prismaClient.order.update({where: {id: orderId},data: {
-    paid: parsedData.data.paidType
+ await prismaClient.order.update({where: {id: orderId},data: {
+    paid: parsedData.data.paidType,
+    paymentMethod: parsedData.data.paymentMethod?.toUpperCase()
 }}) 
 res.status(200).json({
     success: true,

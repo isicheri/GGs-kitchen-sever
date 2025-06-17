@@ -15,6 +15,7 @@ exports.createOrderSchema = zod_1.z.object({
 });
 exports.updateOrderSchema = zod_1.z.object({
     paidType: zod_1.z.enum(["YES", "NO"]),
+    paymentMethod: zod_1.z.string().nullable(),
 });
 exports.deleteOrderSchema = zod_1.z.object({
     orderId: zod_1.z.string()

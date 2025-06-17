@@ -16,6 +16,7 @@ const editModalOverlay = document.getElementById("editModalOverlay");
 const closeEditModal = document.getElementById("closeEditModal");
 const editStatusSelect = document.getElementById("editStatusSelect");
 const editStatusForm = document.getElementById("editStatusForm");
+const editPaymentInput = document.getElementById("paymentMethod");
 
 searchInput.addEventListener('input', debounce(() => {
   currentSearch = searchInput.value.trim();
@@ -194,6 +195,7 @@ ordersContainer.addEventListener("click", async (e) => {
 editStatusForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const newStatus = editStatusSelect.value;
+  const newPayment = editPaymentInput.value;
 
   if (!currentOrderIdForEdit) {
     showError("No order selected.");
@@ -204,7 +206,7 @@ editStatusForm.addEventListener("submit", async (e) => {
     const res = await fetch(`/user/orders/update-order-status/${currentOrderIdForEdit}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ paidType: newStatus }),
+      body: JSON.stringify({ paidType: newStatus,paymentMethod: newPayment}),
     });
 
     if (!res.ok) throw new Error("Update failed");

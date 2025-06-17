@@ -40,13 +40,15 @@ const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
 });
 exports.createOrder = createOrder;
 const updateOrderStatus = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const parsedData = order_validation_1.updateOrderSchema.safeParse(req.body);
     const { orderId } = req.params;
     if (!parsedData.success) {
         throw new badRequest_1.BadRequest("invalid input! check again", parsedData.error);
     }
-    const order = yield prismaClent_1.default.order.update({ where: { id: orderId }, data: {
-            paid: parsedData.data.paidType
+    yield prismaClent_1.default.order.update({ where: { id: orderId }, data: {
+            paid: parsedData.data.paidType,
+            paymentMethod: (_a = parsedData.data.paymentMethod) === null || _a === void 0 ? void 0 : _a.toUpperCase()
         } });
     res.status(200).json({
         success: true,

@@ -15,7 +15,8 @@ export const createOrderSchema = z.object({
 
 
 export const updateOrderSchema = z.object({
-    paidType: z.enum(["YES","NO"]),
+     paidType: z.enum(["YES","NO"]),
+     paymentMethod: z.string().nullable(),
 })
 
 export const deleteOrderSchema = z.object({

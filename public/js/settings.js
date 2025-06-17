@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded",async() => {
         if(data.success) {
           renderUsers(data.data)
         }else {
-          usersContainer.innerHTML = '<p style="color:red;">Failed to load orders.</p>' 
+          usersContainer.innerHTML = '<p style="color:red;">Failed to load users.</p>' 
         }
     } catch (error) {
-        usersContainer.innerHTML = '<p style="color:red;">Failed to load orders.</p>'
+        usersContainer.innerHTML = '<p style="color:red;">Failed to load users.</p>'
     }
 })
 

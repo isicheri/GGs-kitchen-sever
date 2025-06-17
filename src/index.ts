@@ -127,5 +127,4 @@ if(EVIRONMENT === "production") {
         console.log(`server is running on port ${port}`)
     });
 }
-
 //DATABASE_URL="postgresql://GGuser:GGpassword@localhost:5432/GGdb?schema=public"

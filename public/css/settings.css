@@ -114,7 +114,7 @@ body {
 }
 
 .add-user-btn {
-  height: 70px;
+  height: 50px;
   width: 100px;
   background-color: var(--primary);
   border-radius: 5px;
@@ -144,6 +144,7 @@ body {
 
 .modal-overlay.show {
   opacity: 1;
+   transform: scale(1);
   pointer-events: all;
 }
 
