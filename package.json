@@ -11,10 +11,12 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/connect-flash": "^0.0.40",
+    "@types/connect-pg-simple": "^7.0.3",
     "@types/cors": "^2.8.17",
     "@types/express-session": "^1.18.2",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.15.3",
+    "@types/pg": "^8.15.4",
     "chalk": "^5.4.1",
     "dotenv": "^16.5.0",
     "prisma": "^6.7.0",
@@ -28,6 +30,7 @@
     "@types/express": "^5.0.1",
     "bcrypt": "^5.1.1",
     "connect-flash": "^0.1.1",
+    "connect-pg-simple": "^10.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "csurf": "^1.11.0",
@@ -37,6 +40,7 @@
     "express-session": "^1.18.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
+    "pg": "^8.16.0",
     "zod": "^3.24.3"
   },
   "name": "GGs-server",

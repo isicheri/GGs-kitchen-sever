@@ -11,12 +11,28 @@ const routes_1 = __importDefault(require("./routes"));
 const logger_middleware_1 = __importDefault(require("./middleware/logger.middleware"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const express_session_1 = __importDefault(require("express-session"));
+const connect_pg_simple_1 = __importDefault(require("connect-pg-simple"));
+const pg_1 = require("pg");
+const dotenv_1 = __importDefault(require("dotenv"));
 const connect_flash_1 = __importDefault(require("connect-flash"));
 const path_1 = __importDefault(require("path"));
+dotenv_1.default.config();
 const App = (0, express_1.default)();
 const isProduction = secrets_1.EVIRONMENT === "production";
+const PgSession = (0, connect_pg_simple_1.default)(express_session_1.default);
+const pgPool = new pg_1.Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false,
+    },
+});
 App.use((0, cookie_parser_1.default)());
 App.use((0, express_session_1.default)({
+    store: new PgSession({
+        pool: pgPool,
+        tableName: 'user_sessions',
+        createTableIfMissing: true
+    }),
     secret: secrets_1.SESSIONSEC,
     resave: false,
     saveUninitialized: false,
@@ -55,7 +71,7 @@ App.use(helmet_1.default.contentSecurityPolicy({
         connectSrc: [
             "'self'",
             ...(isProduction
-                ? ['https://your-api.com'] // Replace with prod API
+                ? ['https://ggs-kitchen-sever.onrender.com'] // Replace with prod API
                 : ['http://localhost:4000']),
         ],
         imgSrc: [
@@ -84,8 +100,9 @@ App.use((req, res, next) => {
 });
 App.use(error_middleware_1.default);
 if (secrets_1.EVIRONMENT === "production") {
-    console.log("In prod mode");
-    App.listen();
+    const renderPort = process.env.PORT || secrets_1.port;
+    console.log(`In prod mode. Listening on port ${renderPort}`);
+    App.listen(renderPort);
 }
 else {
     console.log("In dev mode");

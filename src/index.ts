@@ -6,13 +6,31 @@ import indexRouter from "./routes";
 import loggerMiddleware from "./middleware/logger.middleware";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import pgSession from "connect-pg-simple";
+import {Pool} from "pg";
+import dotenv from "dotenv";
 import flash from "connect-flash";
 import path from "path";
 
+dotenv.config();
+
 const App:Express = express();
 const isProduction = EVIRONMENT === "production";
+const PgSession = pgSession(session);
+const pgPool = new Pool({
+  connectionString: process.env.DATABASE_URL, 
+  ssl: {
+    rejectUnauthorized: false, 
+  },
+});
+
 App.use(cookieParser());
 App.use(session({
+    store: new PgSession({
+    pool: pgPool,
+    tableName: 'user_sessions', 
+    createTableIfMissing: true
+  }),
     secret: SESSIONSEC as string,
     resave: false,
     saveUninitialized: false,
@@ -58,7 +76,7 @@ App.use(
       connectSrc: [
         "'self'",
         ...(isProduction
-          ? ['https://your-api.com'] // Replace with prod API
+          ? ['https://ggs-kitchen-sever.onrender.com'] // Replace with prod API
           : ['http://localhost:4000']),
       ],
 
@@ -95,8 +113,9 @@ App.use((req, res, next) => {
 App.use(errorMiddleware)
 
 if(EVIRONMENT === "production") {
-    console.log("In prod mode")
-  App.listen();  
+    const renderPort = process.env.PORT || port;
+  console.log(`In prod mode. Listening on port ${renderPort}`);
+  App.listen(renderPort);
 }else {
     console.log("In dev mode")
     App.listen(process.env.PORT,() => {
