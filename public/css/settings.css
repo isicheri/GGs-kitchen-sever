@@ -407,14 +407,14 @@ display: none !important;
 
 .logout-text {
   font-size: 15px;
-  font-family: "Edu QLD Hand", cursive;
+     font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
 }
 
 .link_a {
-    font-family: "Edu QLD Hand", cursive;
+     font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
