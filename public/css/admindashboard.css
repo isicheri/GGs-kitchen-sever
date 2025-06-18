@@ -1,5 +1,6 @@
  :root {
-      --primary: #7F5AF0;         /* Soft royal purple */
+      /* --primary: #7F5AF0;         Soft royal purple */
+      --primary: #2d1969; 
   --primary-hover: #6249D6;   /* Slightly darker for hover */
   --accent: #2e2d31;          /* Light lavender/purple */
   --bg: #F4F4FF;              /* Very soft blue-tinted white */
@@ -13,7 +14,7 @@
     }
 
     body {
-      font-family: "Edu QLD Hand", cursive;
+     font-family: 'Inter', sans-serif;
       background-color: var(--bg);
       color: var(--text-light);
       height: 100vh;
@@ -36,7 +37,7 @@
   .summary-cards,
   .charts,
   .chart-container {
-    font-family: "Edu QLD Hand", cursive !important;
+    font-family: 'Playfair Display', serif !important;
   }
 
     .dashboard-container {
@@ -79,7 +80,6 @@
       align-items: center;
     }
 
-    .nav li:hover,
     .nav li.active {
       background-color: var(--primary);
     }
@@ -301,7 +301,7 @@
     }
 
     .link_a {
-    font-family: "Edu QLD Hand", cursive;
+  font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;

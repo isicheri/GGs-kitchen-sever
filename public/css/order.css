@@ -1,5 +1,6 @@
   :root {
- --primary: #7F5AF0;         /* Soft royal purple */
+ /* --primary: #7F5AF0;         Soft royal purple */
+  --primary: #2d1969; 
   --primary-hover: #6249D6;   /* Slightly darker for hover */
   --accent: #A78BFA;          /* Light lavender/purple */
   --bg: #F4F4FF;              /* Very soft blue-tinted white */
@@ -13,7 +14,7 @@
 }
 
 body {
-  font-family: "Edu QLD Hand", cursive;
+  font-family: 'Inter', sans-serif;
   background-color: var(--bg);
   color: var(--text-light);
   height: 100vh;
@@ -60,7 +61,6 @@ body {
       align-items: center;
 }
 
-.nav li:hover,
 .nav li.active {
   background-color: var(--primary);
 }
@@ -126,14 +126,14 @@ body {
 
 .logout-text {
   font-size: 15px;
-  font-family: "Edu QLD Hand", cursive;
+ font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
 }
 
 .link_a {
-    font-family: "Edu QLD Hand", cursive;
+   font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
@@ -176,7 +176,7 @@ body {
 
 .order {
  width: 95%;
- height: 50px;
+ height: 55px;
  display: flex;
  justify-content: space-between;
  align-items: center;
@@ -185,10 +185,11 @@ body {
  margin: 10px;
  cursor: pointer;
  transition: all .5s ease;
+ background-color: var(--primary);
 }
-.order:hover {
+/* .order:hover {
     background-color: var(--accent);
-}
+} */
 
 .first-order-div {
     /* background-color: #7e0926; */
@@ -225,7 +226,7 @@ body {
 }
 
 .input-container input .input-btn-active {
-    background-color: #7e0926;
+    background-color: var(--primary);
 }
 
 #search-order {
@@ -333,7 +334,7 @@ body {
 
 /* Modal Box */
 .modal-content {
-  background-color: var(--primary-hover);
+  background-color: var(--primary);
   color: var(--text-light);
   padding: 2rem;
   border-radius: 12px;
@@ -342,7 +343,7 @@ body {
   animation: scaleIn 0.3s ease-in-out;
   position: relative;
   box-shadow: 0 0 20px rgba(0,0,0,0.5);
-   border: 1px solid var(--primary);
+   border: 1px solid var(--primary-hover);
 }
 
 .text_deco {
@@ -410,7 +411,7 @@ body {
 }
 
 .edit-modal {
-  background-color: transparent;
+  background-color: var(--primary);
   padding: 20px;
   border-radius: 10px;
   /* max-width: 400px; */

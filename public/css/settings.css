@@ -1,5 +1,6 @@
    :root {
-  --primary: #7F5AF0;         /* Soft royal purple */
+  /* --primary: #7F5AF0;         Soft royal purple */
+  --primary: #2d1969; 
   --primary-hover: #6249D6;   /* Slightly darker for hover */
   --accent: #A78BFA;          /* Light lavender/purple */
   --bg: #F4F4FF;              /* Very soft blue-tinted white */
@@ -14,7 +15,7 @@
 }
 
 body {
-  font-family: "Edu QLD Hand", cursive;
+font-family: 'Inter', sans-serif;
   background-color: #FAFBFF;
   color: var(--text-light);
   height: 100vh;
@@ -61,7 +62,6 @@ body {
       align-items: center;
 }
 
-.nav li:hover,
 .nav li.active {
   background-color: var(--primary);
 }
