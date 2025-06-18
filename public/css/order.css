@@ -593,3 +593,44 @@ body {
   }
 
 }
+
+@media (max-width: 400px) {
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 5px 0;
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    overflow-x: auto; /* allow horizontal scroll if needed */
+    gap: 4px;
+  }
+
+  .nav li {
+    flex: 1;
+    text-align: center;
+    padding: 6px 2px;
+    font-size: 11px;
+    min-width: 60px; /* prevent cramping */
+  }
+
+  .link_a {
+    display: block;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .nav img {
+    display: block;
+    margin: 2px auto 0;
+    width: 18px;
+    height: auto;
+  }
+}
+

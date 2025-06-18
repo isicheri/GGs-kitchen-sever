@@ -62,7 +62,7 @@
 
           <div class="card show" style="animation-delay: 0.3s;">
             <div class="card-title">Today's Sales</div>
-            <div class="card-value">₦<%= todayTotalPrice.toFixed(2) %></div>
+            <div class="card-value">₦<%= todayTotalPrice.toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })%></div>
             <div class="percent-change <%= percentChangeOfTotalPrice > 0 ? 'positive' : (percentChangeOfTotalPrice < 0 ? 'negative' : '') %>">
               <% if (percentChangeOfTotalPrice > 0) { %>🔺<% } else if (percentChangeOfTotalPrice < 0) { %>🔻<% } %>
               <%= Math.abs(percentChangeOfTotalPrice).toFixed(2) %>%
@@ -80,7 +80,7 @@
 
           <div class="card show" style="animation-delay: 0.5s;">
             <div class="card-title">This Month's Sales</div>
-            <div class="card-value">₦<%= thisMonthTotalPrice.toFixed(2) %></div>
+            <div class="card-value">₦<%= thisMonthTotalPrice.toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></div>
             <div class="percent-change <%= percentChangeOfTotalPriceMonthly > 0 ? 'positive' : (percentChangeOfTotalPriceMonthly < 0 ? 'negative' : '') %>">
               <% if (percentChangeOfTotalPriceMonthly > 0) { %>🔺<% } else if (percentChangeOfTotalPriceMonthly < 0) { %>🔻<% } %>
               <%= Math.abs(percentChangeOfTotalPriceMonthly).toFixed(2) %>%
@@ -90,7 +90,7 @@
 
         <!-- Charts -->
         <div class="charts">
-          <div class="chart-container">
+          <div class="chart-container chart-container1">
             <div class="chart-title">Weekly Sales</div>
             <canvas id="lineChart"></canvas>
           </div>
