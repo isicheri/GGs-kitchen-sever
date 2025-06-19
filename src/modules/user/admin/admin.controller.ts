@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { getAllCompletedOrder, getMonthlySalesAndCompare, getMostOrderedPieItem, getSalesGraphOrder, getTodaysSalesAndCompare, getTodayTotalOrders, getTotalOrderOfTheWeeks } from "../../order/controller/order.controller";
+import { getAllCompletedOrder, getMonthlySalesAndCompare, getMostOrderedPieItem, getSalesGraphOrder, getTodaysSalesAndCompare, getTodayTotalOrders, getTotalOrderOfTheWeeks, getTotalUnpaidOrders } from "../../order/controller/order.controller";
 import { createUser, getAllUsers, getUser, getUserById } from "../service/user.service";
 import { BadRequest } from "../../../utils/Errors/badRequestError/badRequest";
 import prismaClient from "../../../utils/prismaClient/prismaClent";
@@ -14,6 +14,7 @@ export const getDashboard = async (req:Request,res: Response) => {
     const graphData = await getSalesGraphOrder();
     const commpletedOrder = await getAllCompletedOrder();
     const pieData = await getMostOrderedPieItem();
+    const {unpaidCount,totalUnPaidAmount,totalRevenue,paidOrdersCount} = await getTotalUnpaidOrders()
     res.render("admindashboard",{
         user: req.user,
         lastWeekCount: lastWeekCount,
@@ -26,6 +27,10 @@ export const getDashboard = async (req:Request,res: Response) => {
         percentChangeOfTotalPriceMonthly: percentChangeOfTotalPriceMonthly,
         commpletedOrder: commpletedOrder,
         graphData:graphData,
+        unpaidCount:unpaidCount,
+        totalUnPaidAmount,
+        paidOrdersCount:paidOrdersCount,
+        totalRevenue,
         pieChartData: {
           lebels: pieData.labels,
           data: pieData.dataPie

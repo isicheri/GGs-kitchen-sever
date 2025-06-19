@@ -27,6 +27,7 @@ const getDashboard = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const graphData = yield (0, order_controller_1.getSalesGraphOrder)();
         const commpletedOrder = yield (0, order_controller_1.getAllCompletedOrder)();
         const pieData = yield (0, order_controller_1.getMostOrderedPieItem)();
+        const { unpaidCount, totalUnPaidAmount, totalRevenue, paidOrdersCount } = yield (0, order_controller_1.getTotalUnpaidOrders)();
         res.render("admindashboard", {
             user: req.user,
             lastWeekCount: lastWeekCount,
@@ -39,6 +40,10 @@ const getDashboard = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             percentChangeOfTotalPriceMonthly: percentChangeOfTotalPriceMonthly,
             commpletedOrder: commpletedOrder,
             graphData: graphData,
+            unpaidCount: unpaidCount,
+            totalUnPaidAmount,
+            paidOrdersCount: paidOrdersCount,
+            totalRevenue,
             pieChartData: {
                 lebels: pieData.labels,
                 data: pieData.dataPie

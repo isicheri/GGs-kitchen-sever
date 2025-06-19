@@ -4,6 +4,7 @@ import { createOrderSchema, deleteOrderSchema, findOrderSchema, updateOrderSchem
 import { BadRequest } from "../../../utils/Errors/badRequestError/badRequest";
 import { Order } from "../../../../generated/prisma";
 import {startOfWeek,endOfWeek,subWeeks,startOfDay,endOfDay,subDays,startOfMonth,endOfMonth, subMonths, format} from "date-fns";
+import { count } from "node:console";
 
 export const createOrder = async(req:Request,res:Response,next:NextFunction) => {
 const parsedData = createOrderSchema.safeParse(req.body);
@@ -365,4 +366,12 @@ const labels = Array.from(itemMap.keys());
 const dataPie = Array.from(itemMap.values());   
 
 return {labels,dataPie}
+}
+
+export const getTotalUnpaidOrders = async():Promise<{unpaidCount:number,totalUnPaidAmount: number,totalRevenue: number,paidOrdersCount:number}> => {
+  const ordersCount = await prismaClient.order.count({where: {paid: "NO"}});
+  const paidOrdersCount = await prismaClient.order.count({where: {paid: "YES"}});
+  const totalAmount = (await prismaClient.order.findMany({include: {itemsOrdered: true}})).flatMap((order) => order.itemsOrdered).reduce((sum,items) => sum + (items.price * items.quantity),0);
+  const totalUnPaidAmount = (await prismaClient.order.findMany({where: {paid: "NO"},include: {itemsOrdered:true}})).flatMap((order) => order.itemsOrdered).reduce((sum,item) => sum + (item.price * item.quantity),0);
+  return {unpaidCount: ordersCount,totalUnPaidAmount: totalUnPaidAmount,totalRevenue: totalAmount - totalUnPaidAmount,paidOrdersCount:paidOrdersCount}
 }

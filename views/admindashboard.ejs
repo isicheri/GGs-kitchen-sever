@@ -86,6 +86,28 @@
               <%= Math.abs(percentChangeOfTotalPriceMonthly).toFixed(2) %>%
             </div>
           </div>
+
+           <div class="card show" style="animation-delay: 0.8s;">
+            <div class="card-title">Total Paid Orders</div>
+              <div class="card-value"><%= paidOrdersCount %></div>
+          </div>
+
+
+          <div class="card show" style="animation-delay: 0.6s;">
+            <div class="card-title">Total Unpaid Orders</div>
+            <div class="card-value"><%= unpaidCount %></div>
+          </div>
+
+          <div class="card show" style="animation-delay: 0.7s;">
+            <div class="card-title">Total Unpaid Amount</div>
+             <div class="card-value">₦<%= totalUnPaidAmount.toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })%></div>
+          </div>
+
+          <div class="card show" style="animation-delay: 0.8s;">
+            <div class="card-title">Total Revenue</div>
+              <div class="card-value">₦<%= totalRevenue.toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })%></div>
+          </div>
+
         </div>
 
         <!-- Charts -->

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMostOrderedPieItem = exports.getSalesGraphOrder = exports.getTotalOrderOfTheWeeks = exports.getTodayTotalOrders = exports.getTodaysSalesAndCompare = exports.getMonthlySalesAndCompare = exports.getAllCompletedOrder = exports.getAllOrders = exports.findOrderById = exports.removeOrder = exports.updateOrderStatus = exports.createOrder = void 0;
+exports.getTotalUnpaidOrders = exports.getMostOrderedPieItem = exports.getSalesGraphOrder = exports.getTotalOrderOfTheWeeks = exports.getTodayTotalOrders = exports.getTodaysSalesAndCompare = exports.getMonthlySalesAndCompare = exports.getAllCompletedOrder = exports.getAllOrders = exports.findOrderById = exports.removeOrder = exports.updateOrderStatus = exports.createOrder = void 0;
 const prismaClent_1 = __importDefault(require("../../../utils/prismaClient/prismaClent"));
 const order_validation_1 = require("../validation/order.validation");
 const badRequest_1 = require("../../../utils/Errors/badRequestError/badRequest");
@@ -333,3 +333,11 @@ const getMostOrderedPieItem = () => __awaiter(void 0, void 0, void 0, function* 
     return { labels, dataPie };
 });
 exports.getMostOrderedPieItem = getMostOrderedPieItem;
+const getTotalUnpaidOrders = () => __awaiter(void 0, void 0, void 0, function* () {
+    const ordersCount = yield prismaClent_1.default.order.count({ where: { paid: "NO" } });
+    const paidOrdersCount = yield prismaClent_1.default.order.count({ where: { paid: "YES" } });
+    const totalAmount = (yield prismaClent_1.default.order.findMany({ include: { itemsOrdered: true } })).flatMap((order) => order.itemsOrdered).reduce((sum, items) => sum + (items.price * items.quantity), 0);
+    const totalUnPaidAmount = (yield prismaClent_1.default.order.findMany({ where: { paid: "NO" }, include: { itemsOrdered: true } })).flatMap((order) => order.itemsOrdered).reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    return { unpaidCount: ordersCount, totalUnPaidAmount: totalUnPaidAmount, totalRevenue: totalAmount - totalUnPaidAmount, paidOrdersCount: paidOrdersCount };
+});
+exports.getTotalUnpaidOrders = getTotalUnpaidOrders;
