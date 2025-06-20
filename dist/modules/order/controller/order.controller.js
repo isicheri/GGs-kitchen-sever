@@ -22,8 +22,18 @@ const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     if (!parsedData.success) {
         throw new badRequest_1.BadRequest("cannot process input", parsedData.error);
     }
-    const { orderBy, paidType, itemOrdered, paymentMethod } = parsedData.data;
-    const order = yield prismaClent_1.default.order.create({ data: { orderBy: orderBy.toUpperCase(), paid: paidType, paymentMethod: paymentMethod, itemsOrdered: {
+    const { orderBy, paidType, itemOrdered, paymentMethod, orderDate } = parsedData.data;
+    if (orderDate) {
+        const selected = new Date(orderDate);
+        const today = new Date();
+        selected.setHours(0, 0, 0, 0);
+        today.setHours(0, 0, 0, 0);
+        if (selected > today) {
+            throw new badRequest_1.BadRequest("Order date cannot be in the future", null);
+        }
+    }
+    const dateToUse = orderDate ? new Date(orderDate) : new Date();
+    const order = yield prismaClent_1.default.order.create({ data: { orderBy: orderBy.toUpperCase(), paid: paidType, paymentMethod: paymentMethod, createAt: dateToUse, itemsOrdered: {
                 create: itemOrdered.map((value) => ({
                     name: value.name.toUpperCase(),
                     price: value.price,

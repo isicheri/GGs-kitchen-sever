@@ -192,27 +192,28 @@
     }
   });
     // Prepare data for pie chart
+    function generateRandomColors(count) {;
+  const colors = [];
+  const step = 360 / count;
+  for (let i = 0; i < count; i++) {
+    const hue = Math.floor(i * step);
+    colors.push(`hsl(${hue}, 70%, 60%)`);
+  }
+  return colors;
+};
+
     const pieData = {
       labels: <%- JSON.stringify(pieChartData.lebels) %>,
       datasets: [{
         data: <%- JSON.stringify(pieChartData.data) %>,
-        backgroundColor: [
-          '#d73b5c',
-          '#7e0926',
-          '#ff6384',
-          '#ff9f40',
-          '#36a2eb',
-          '#4bc0c0',
-          '#9966ff',
-          '#c9cbcf'
-        ],
+        backgroundColor: generateRandomColors(<%- JSON.stringify(pieChartData.lebels.length) %>),
         hoverOffset: 10
       }]
     };
 
     const pieCtx = document.getElementById('pieChart').getContext('2d');
     const pieChart = new Chart(pieCtx, {
-      type: 'pie',
+      type: 'doughnut',
       data: pieData,
       options: {
         responsive: true,

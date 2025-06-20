@@ -4,15 +4,25 @@ import { createOrderSchema, deleteOrderSchema, findOrderSchema, updateOrderSchem
 import { BadRequest } from "../../../utils/Errors/badRequestError/badRequest";
 import { Order } from "../../../../generated/prisma";
 import {startOfWeek,endOfWeek,subWeeks,startOfDay,endOfDay,subDays,startOfMonth,endOfMonth, subMonths, format} from "date-fns";
-import { count } from "node:console";
 
 export const createOrder = async(req:Request,res:Response,next:NextFunction) => {
 const parsedData = createOrderSchema.safeParse(req.body);
 if(!parsedData.success) {
     throw new BadRequest("cannot process input",parsedData.error);
 }
-const {orderBy,paidType,itemOrdered,paymentMethod} = parsedData.data;
-const order = await prismaClient.order.create({data: {orderBy:orderBy.toUpperCase(),paid: paidType,paymentMethod: paymentMethod,itemsOrdered: {
+const {orderBy,paidType,itemOrdered,paymentMethod,orderDate} = parsedData.data;
+ if (orderDate) {
+    const selected = new Date(orderDate);
+    const today = new Date();
+    selected.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    if (selected > today) {
+      throw new BadRequest("Order date cannot be in the future", null);
+    }
+  }
+ const dateToUse = orderDate ? new Date(orderDate) : new Date();
+const order = await prismaClient.order.create({data: {orderBy:orderBy.toUpperCase(),paid: paidType,paymentMethod: paymentMethod,createAt:dateToUse,itemsOrdered: {
     create: itemOrdered.map((value) => ({
         name: value.name.toUpperCase(),
         price: value.price,

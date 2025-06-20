@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter&family=Playfair+Display&display=swap" rel="stylesheet">
 </head>
 <body>
+   <div id="toastContainer"></div>
   <div class="dashboard-container">
     <aside class="sidebar">
       <h2 class="logo">Welcome, <%= user.username %></h2>
@@ -79,6 +80,12 @@
               <option value="NO">Unpaid</option>
             </select>
           </div>
+
+          <div class="form-group">
+  <label for="orderDate">Order Date (optional)</label>
+  <input type="date" id="orderDate" name="orderDate" />
+</div>
+
 
           <div class="items-section">
             <h3>Items</h3>

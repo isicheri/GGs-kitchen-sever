@@ -37,6 +37,16 @@ function createItemBlock() {
   return div;
 }
 
+// Prefill today's date on load
+document.addEventListener('DOMContentLoaded', () => {
+  const dateInput = document.getElementById('orderDate');
+  if (dateInput) {
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.value = today;
+  }
+});
+
+
 // Add item block initially
 addItemBtn.addEventListener('click', () => {
   // console.log("item clicked")
@@ -66,6 +76,21 @@ form.addEventListener('submit', async (e) => {
   const orderBy = form.orderBy.value.trim();
   const paymentMethod = form.paymentMethod.value.trim();
   const paidType = form.paidType.value;
+  const orderDate = form.orderDate.value;
+  
+  if (orderDate) {
+  const selectedDate = new Date(orderDate);
+  selectedDate.setHours(0, 0, 0, 0); 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (selectedDate > today) {
+    showMessage('Order date cannot be in the future.', 'error');
+    hideLoader();
+    return;
+  }
+}
+
 
   const items = [];
   let hasError = false;
@@ -89,7 +114,7 @@ form.addEventListener('submit', async (e) => {
     const response = await fetch('/user/orders/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ orderBy, paidType,paymentMethod, itemOrdered: items })
+      body: JSON.stringify({ orderBy, paidType,paymentMethod,orderDate,itemOrdered: items })
     });
 
     const data = await response.json();
@@ -110,7 +135,15 @@ form.addEventListener('submit', async (e) => {
 });
 
 function showMessage(msg, type) {
-  statusMessage.textContent = msg;
-  statusMessage.className = `status-message ${type}`;
-  statusMessage.classList.remove('hidden');
+const toastContainer = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = msg;
+
+  toastContainer.appendChild(toast);
+
+  // Remove toast after animation ends
+  setTimeout(() => {
+    toast.remove();
+  }, 4000);
 }
